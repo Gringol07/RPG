@@ -2,4 +2,6 @@
 
 int main(){
     std::cout << "Bem vindo ao nosso RPG";
+    std::cout << "Gostaria de Jogar?";
+
 }

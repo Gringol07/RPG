@@ -27,7 +27,6 @@ bool Personagem::estaVivo()
     return vida > 0;
 }
 
-<<<<<<< HEAD
 Acao Personagem::efetuarAcao()
 {
     int option;
@@ -46,7 +45,7 @@ Acao Personagem::efetuarAcao()
     {
         return DEFENDER;
     }
-    else // option == 3 (FUGIR)
+    else
     {
         int fugir_result = distrib(gen);
         if (fugir_result == 1)

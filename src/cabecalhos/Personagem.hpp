@@ -1,7 +1,8 @@
 #ifndef PERSONAGEM_HPP
 #define PERSONAGEM_HPP
-
 #include <string>
+#include <random>
+
 
 enum Acao
 {

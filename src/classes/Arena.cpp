@@ -48,15 +48,11 @@ void Arena::batalhar(Personagem &lutador1, Personagem &lutador2)
                 std::cout << lutador2.getNome() << " tentou fugir e falhou!" << std::endl;
             }
         }
+        
+        int colisao = acaoLutador1 - acaoLutador2;
 
-        if (acaoLutador1 == ATACAR)
-        {
-            fazerPersonagemAtacar(lutador1, lutador2);
-        }
-        if (acaoLutador2 == ATACAR)
-        {
-            fazerPersonagemAtacar(lutador2, lutador1);
-        }
+        fazerPersonagemAtacar(lutador1, lutador2);
+        fazerPersonagemAtacar(lutador2, lutador1);
 
         rodada++;
         lutador1.mostrarStatus();
@@ -83,8 +79,12 @@ void Arena::verificarVencedor()
 
 void Arena::fazerPersonagemAtacar(Personagem &atacante, Personagem &alvo)
 {
+    alvo.setDefesa(alvo.getDefesa() - atacante.getAtaque());
     int dano = atacante.getAtaque() - alvo.getDefesa();
-    alvo.receberDano(dano);
+    if(dano > 0){
+        alvo.receberDano(dano);
+
+    }
 
     std::cout << "O personagem " << atacante.getNome() << " causou " << dano << " de dano no personagem " << alvo.getNome() << std::endl;
 }

@@ -30,6 +30,8 @@ public:
     void receberDano(int dano);
     void mostrarStatus();
     int getAtaque();
+    void setDefesa(int newDefesa);
+    void setAtaque(int newAtaque);
     int getDefesa();
     std::string getNome();
 };

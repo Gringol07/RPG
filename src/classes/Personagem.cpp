@@ -63,7 +63,10 @@ Acao Personagem::efetuarAcao()
 
 void Personagem::receberDano(int dano)
 {
-    if (dano > 0)
+    if(dano > vida){
+        vida = 0;
+    }
+    else if (dano > 0)
     {
         vida -= dano;
     }
@@ -86,6 +89,17 @@ int Personagem::getDefesa()
     return defesa;
 }
 
+void Personagem::setAtaque(int newAtaque)
+{
+    this->ataque = newAtaque;
+}
+void Personagem::setDefesa(int newDefesa)
+{
+    if(newDefesa <= 0){
+        this->defesa = 0;
+    }
+    this->defesa = newDefesa;
+}
 std::string Personagem::getNome()
 {
     return nome;

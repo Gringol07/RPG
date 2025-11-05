@@ -17,6 +17,9 @@ private:
     int vida;
     int ataque;
     int defesa;
+    static std::random_device rd;
+    static std::mt19937 gen;
+    static std::uniform_int_distribution<> distrib;
 
 public:
     Personagem();

@@ -2,6 +2,10 @@
 #include "../cabecalhos/Personagem.hpp"
 #include <random>
 
+std::random_device Personagem::rd;
+std::mt19937 Personagem::gen(Personagem::rd());
+std::uniform_int_distribution<> Personagem::distrib(1,2);
+
 Personagem::Personagem()
 {
     this->nome = "";
@@ -23,6 +27,7 @@ bool Personagem::estaVivo()
     return vida > 0;
 }
 
+<<<<<<< HEAD
 Acao Personagem::efetuarAcao()
 {
     int option;
@@ -41,9 +46,19 @@ Acao Personagem::efetuarAcao()
     {
         return DEFENDER;
     }
-    else
+    else // option == 3 (FUGIR)
     {
-        return FUGIR;
+        int fugir_result = distrib(gen);
+        if (fugir_result == 1)
+        {
+            std::cout << "Você conseguiu fugir!" << std::endl;
+            return FUGIR;
+        }
+        else
+        {
+            std::cout << "Tentativa de fuga falhou! A luta continua" << std::endl;
+            return ATACAR;
+        }
     }
 }
 

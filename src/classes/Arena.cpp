@@ -1,5 +1,6 @@
 #include "../cabecalhos/Arena.hpp"
 #include <iostream>
+#include <random>
 
 Arena::Arena()
 {
@@ -8,38 +9,82 @@ Arena::Arena()
 
 void Arena::batalhar(Personagem &lutador1, Personagem &lutador2)
 {
-
     while (lutador1.estaVivo() && lutador2.estaVivo())
     {
-        std::cout << rodada << std::endl;
-        int opcaoLutador1 = lutador1.efetuarAcao();
-        int opcaoLutador2 = lutador2.efetuarAcao();
+        std::cout << "Rodada " << rodada << std::endl;
 
-        if (opcaoLutador1 > opcaoLutador2)
+        Acao acaoLutador1 = lutador1.efetuarAcao();
+        Acao acaoLutador2 = lutador2.efetuarAcao();
+
+        if (acaoLutador1 == FUGIR)
         {
-            fazerPersonagemAtacar(lutador1, lutador2, opcaoLutador1 - opcaoLutador2);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> distrib(1, 2);
+            if (distrib(gen) == 1)
+            {
+                std::cout << lutador1.getNome() << " conseguiu fugir!" << std::endl;
+                vencedor = lutador2;
+                break;
+            }
+            else
+            {
+                std::cout << lutador1.getNome() << " tentou fugir e falhou!" << std::endl;
+            }
         }
-        else if (opcaoLutador2 > opcaoLutador1)
+        if (acaoLutador2 == FUGIR)
         {
-            fazerPersonagemAtacar(lutador2, lutador1, opcaoLutador2 - opcaoLutador1);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> distrib(1, 2);
+            if (distrib(gen) == 1)
+            {
+                std::cout << lutador2.getNome() << " conseguiu fugir!" << std::endl;
+                vencedor = lutador1;
+                break;
+            }
+            else
+            {
+                std::cout << lutador2.getNome() << " tentou fugir e falhou!" << std::endl;
+            }
         }
 
-        rodada = rodada + 1;
+        if (acaoLutador1 == ATACAR)
+        {
+            fazerPersonagemAtacar(lutador1, lutador2);
+        }
+        if (acaoLutador2 == ATACAR)
+        {
+            fazerPersonagemAtacar(lutador2, lutador1);
+        }
+
+        rodada++;
+        lutador1.mostrarStatus();
+        lutador2.mostrarStatus();
+        std::cout << std::endl;
     }
 
-    lutador1.mostrarStatus();
-    lutador2.mostrarStatus();
+    if (lutador1.estaVivo() && !lutador2.estaVivo())
+    {
+        vencedor = lutador1;
+    }
+    else if (!lutador1.estaVivo() && lutador2.estaVivo())
+    {
+        vencedor = lutador2;
+    }
+
+    verificarVencedor();
 }
 
-void Arena::fazerPersonagemAtacar(const Personagem &atacante, Personagem &alvo, int dano)
+void Arena::verificarVencedor()
 {
+    std::cout << "Vencedor: " << vencedor.getNome() << std::endl;
+}
+
+void Arena::fazerPersonagemAtacar(Personagem &atacante, Personagem &alvo)
+{
+    int dano = atacante.getAtaque() - alvo.getDefesa();
     alvo.receberDano(dano);
 
-    std::cout << "O personagem " << atacante.nome << " causou " << dano << " de dano no personagem " << alvo.nome << std::endl;
-}
-
-void Arena::Fugir(Personagem lutador)
-{
-    // Implementation for Fugir is missing in the original file.
-    // I will leave it empty for now.
+    std::cout << "O personagem " << atacante.getNome() << " causou " << dano << " de dano no personagem " << alvo.getNome() << std::endl;
 }

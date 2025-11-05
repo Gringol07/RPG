@@ -7,12 +7,13 @@ class Arena
 {
 private:
     int rodada;
-    void fazerPersonagemAtacar(const Personagem &atacante, Personagem &alvo, int dano);
-    void Fugir(Personagem lutador);
+    Personagem vencedor;
+    void fazerPersonagemAtacar(Personagem &atacante, Personagem &alvo);
 
 public:
     Arena();
     void batalhar(Personagem &lutador1, Personagem &lutador2);
+    void verificarVencedor();
 };
 
 #endif

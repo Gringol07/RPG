@@ -2,23 +2,32 @@
 #define PERSONAGEM_HPP
 
 #include <string>
-using namespace std;
+
+enum Acao
+{
+    ATACAR,
+    DEFENDER,
+    FUGIR
+};
 
 class Personagem
 {
 private:
+    std::string nome;
     int vida;
     int ataque;
     int defesa;
 
 public:
-    string nome;
-    Personagem(string nome, int vida, int ataque, int defesa);
-    void atacar();
+    Personagem();
+    Personagem(std::string nome, int vida, int ataque, int defesa);
     bool estaVivo();
-    int efetuarAcao();
+    Acao efetuarAcao();
     void receberDano(int dano);
     void mostrarStatus();
+    int getAtaque();
+    int getDefesa();
+    std::string getNome();
 };
 
 #endif

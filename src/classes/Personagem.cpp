@@ -1,5 +1,14 @@
 #include <iostream>
 #include "../cabecalhos/Personagem.hpp"
+#include <random>
+
+Personagem::Personagem()
+{
+    this->nome = "";
+    this->vida = 0;
+    this->ataque = 0;
+    this->defesa = 0;
+}
 
 Personagem::Personagem(std::string nome, int vida, int ataque, int defesa)
 {
@@ -9,24 +18,41 @@ Personagem::Personagem(std::string nome, int vida, int ataque, int defesa)
     this->defesa = defesa;
 }
 
-void Personagem::atacar()
-{
-    return;
-}
-
 bool Personagem::estaVivo()
 {
     return vida > 0;
 }
 
-int Personagem::efetuarAcao()
+Acao Personagem::efetuarAcao()
 {
-    return ataque;
+    int option;
+    do
+    {
+        std::cout << "Jogador da vez: " << this->nome << std::endl;
+        std::cout << "Escolha uma acao:\n1-Atacar\n2-Defender\n3-Fugir" << std::endl;
+        std::cin >> option;
+    } while (option > 3 || option < 1);
+
+    if (option == 1)
+    {
+        return ATACAR;
+    }
+    else if (option == 2)
+    {
+        return DEFENDER;
+    }
+    else
+    {
+        return FUGIR;
+    }
 }
 
 void Personagem::receberDano(int dano)
 {
-    vida -= dano;
+    if (dano > 0)
+    {
+        vida -= dano;
+    }
 }
 
 void Personagem::mostrarStatus()
@@ -35,3 +61,19 @@ void Personagem::mostrarStatus()
               << " | Ataque: " << ataque
               << " | Defesa: " << defesa << std::endl;
 }
+
+int Personagem::getAtaque()
+{
+    return ataque;
+}
+
+int Personagem::getDefesa()
+{
+    return defesa;
+}
+
+std::string Personagem::getNome()
+{
+    return nome;
+}
+

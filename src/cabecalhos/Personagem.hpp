@@ -5,6 +5,7 @@ class Personagem
 {
 private:
 public:
+    void atacar();
     bool estaVivo();
     int efetuarAcao();
     void receberDano(int dano);

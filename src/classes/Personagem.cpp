@@ -1,19 +1,21 @@
 #include <iostream>
 #include <string>
 
+#include "Personagem.hpp"
 using namespace std;
-void classes(){
 class Personagem {
-protected:
-    string nome;
-    int vida;
-    int ataque;
-    int defesa;
-
 public:
-    Personagem(string nome_personagem, int vida_personagem, int ataque_personagem, int defesa_personagem)
-    : nome(nome_personagem), vida(vida_personagem), ataque(ataque_personagem),
-    defesa(defesa_personagem) {}
+    string nome; // nome personagem
+    int vida; // vida personagem
+    int ataque; // ataque personagem
+    int defesa; // defesa personagem
+
+    Personagem(string n,int v,int a, int d){ // os atributos vão receber o valor passado nos parâmetros
+    nome = n;
+    vida = v;
+    ataque = a;
+    defesa = d;
+    }  
 
     // Método para atacar outro personagem
     void atacar(Personagem &inimigo) {
@@ -44,4 +46,4 @@ public:
     }
 
 };
-}
+

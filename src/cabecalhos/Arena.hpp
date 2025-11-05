@@ -7,9 +7,12 @@ class Arena
 {
 private:
     int rodada;
+    void fazerPersonagemAtacar(const Personagem &atacante, Personagem &alvo, int dano);
+    void Fugir(Personagem lutador);
 
 public:
-    void batalhar(Personagem lutador1, Personagem lutador2);
+    Arena();
+    void batalhar(Personagem &lutador1, Personagem &lutador2);
 };
 
 #endif

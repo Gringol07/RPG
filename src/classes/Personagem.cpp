@@ -10,7 +10,7 @@ public:
     int ataque; // ataque personagem
     int defesa; // defesa personagem
 
-    Personagem(string n,int v,int a, int d){ // os atributos vão receber o valor passado nos parâmetros
+    Personagem(string n,int v,int a, int d){ // os atributos vão receber o valores passados no parâmetro
     nome = n;
     vida = v;
     ataque = a;

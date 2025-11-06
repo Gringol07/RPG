@@ -4,8 +4,9 @@
 
 std::random_device Personagem::rd;
 std::mt19937 Personagem::gen(Personagem::rd());
-std::uniform_int_distribution<> Personagem::distrib(1,2);
+std::uniform_int_distribution<> Personagem::distrib(0, 0);
 
+// Construtores
 Personagem::Personagem()
 {
     this->nome = "";
@@ -14,56 +15,57 @@ Personagem::Personagem()
     this->defesa = 0;
 }
 
-Personagem::Personagem(std::string nome, int vida, int ataque, int defesa)
+Personagem::Personagem(std::string nome, int vida, int ataque, int defesa, const std::string frases[20])
 {
     this->nome = nome;
     this->vida = vida;
     this->ataque = ataque;
     this->defesa = defesa;
+
+    for (int i = 0; i < 20; i++)
+    {
+        this->frases[i] = frases[i];
+    }
+
+    distrib = std::uniform_int_distribution<>(0, 19);
 }
 
-bool Personagem::estaVivo()
-{
-    return vida > 0;
-}
+bool Personagem::estaVivo() { return vida > 0; }
+int Personagem::getAtaque() { return ataque; }
+int Personagem::getDefesa() { return defesa; }
+void Personagem::setAtaque(int newAtaque) { this->ataque = newAtaque; }
+Acao Personagem::getAcaoAtual() { return acaoAtual; }
+std::string Personagem::getNome() { return nome; }
 
+// Métodos de açoes
 Acao Personagem::efetuarAcao()
 {
-    int option;
+    int escolha;
     do
     {
         std::cout << "Jogador da vez: " << this->nome << std::endl;
-        std::cout << "Escolha uma acao:\n1-Atacar\n2-Defender\n3-Fugir" << std::endl;
-        std::cin >> option;
-    } while (option > 3 || option < 1);
+        std::cout << "Escolha uma ação:\n1-Atacar\n2-Defender\n3-Fugir" << std::endl;
+        std::cin >> escolha;
+    } while (escolha < 1 || escolha > 3);
 
-    if (option == 1)
-    {
-        return ATACAR;
-    }
-    else if (option == 2)
-    {
-        return DEFENDER;
-    }
+    Acao acaoEscolhida;
+
+    if (escolha == 1)
+        acaoEscolhida = ATACAR;
+    else if (escolha == 2)
+        acaoEscolhida = DEFENDER;
     else
-    {
-        int fugir_result = distrib(gen);
-        if (fugir_result == 1)
-        {
-            std::cout << "Você conseguiu fugir!" << std::endl;
-            return FUGIR;
-        }
-        else
-        {
-            std::cout << "Tentativa de fuga falhou! A luta continua" << std::endl;
-            return ATACAR;
-        }
-    }
+        acaoEscolhida = FUGIR;
+
+    acaoAtual = acaoEscolhida;
+
+    return acaoEscolhida;
 }
 
 void Personagem::receberDano(int dano)
 {
-    if(dano > vida){
+    if (dano > vida)
+    {
         vida = 0;
     }
     else if (dano > 0)
@@ -78,30 +80,17 @@ void Personagem::mostrarStatus()
               << " | Ataque: " << ataque
               << " | Defesa: " << defesa << std::endl;
 }
-
-int Personagem::getAtaque()
-{
-    return ataque;
-}
-
-int Personagem::getDefesa()
-{
-    return defesa;
-}
-
-void Personagem::setAtaque(int newAtaque)
-{
-    this->ataque = newAtaque;
-}
 void Personagem::setDefesa(int newDefesa)
 {
-    if(newDefesa <= 0){
+    if (newDefesa <= 0)
+    {
         this->defesa = 0;
+        return;
     }
     this->defesa = newDefesa;
 }
-std::string Personagem::getNome()
+std::string Personagem::getFraseAleatoria()
 {
-    return nome;
+    int index = distrib(gen);
+    return frases[index];
 }
-

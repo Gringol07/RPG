@@ -9,6 +9,7 @@ private:
     int rodada;
     Personagem vencedor;
     void fazerPersonagemAtacar(Personagem &atacante, Personagem &alvo);
+    bool tentarFugir(Personagem lutador);
 
 public:
     Arena();

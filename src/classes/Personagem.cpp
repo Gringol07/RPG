@@ -31,35 +31,61 @@ Personagem::Personagem(std::string nome, int vida, int ataque, int defesa, const
 }
 
 bool Personagem::estaVivo() { return vida > 0; }
+
+// Métodos Getters e Setters
 int Personagem::getAtaque() { return ataque; }
 int Personagem::getDefesa() { return defesa; }
-void Personagem::setAtaque(int newAtaque) { this->ataque = newAtaque; }
 Acao Personagem::getAcaoAtual() { return acaoAtual; }
 std::string Personagem::getNome() { return nome; }
+void Personagem::setAtaque(int newAtaque) { this->ataque = newAtaque; }
+void Personagem::setDefesa(int newDefesa)
+{
+    if (newDefesa <= 0)
+    {
+        this->defesa = 0;
+        return;
+    }
+    this->defesa = newDefesa;
+}
 
 // Métodos de açoes
 Acao Personagem::efetuarAcao()
 {
-    int escolha;
-    do
-    {
-        std::cout << "Jogador da vez: " << this->nome << std::endl;
-        std::cout << "Escolha uma ação:\n1-Atacar\n2-Defender\n3-Fugir" << std::endl;
-        std::cin >> escolha;
-    } while (escolha < 1 || escolha > 3);
+int escolha;
+bool entradaValida = false;
 
-    Acao acaoEscolhida;
+do {
+    std::cout << "Jogador da vez: " << this->nome << std::endl;
+    std::cout << "Escolha uma ação:\n1-Atacar\n2-Defender\n3-Fugir" << std::endl;
 
-    if (escolha == 1)
-        acaoEscolhida = ATACAR;
-    else if (escolha == 2)
-        acaoEscolhida = DEFENDER;
-    else
-        acaoEscolhida = FUGIR;
+    std::cin >> escolha;
 
-    acaoAtual = acaoEscolhida;
+    if (std::cin.fail()) { 
+        std::cin.clear(); 
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        std::cout << "Entrada inválida! Digite apenas números (1, 2 ou 3)." << std::endl;
+    }
+    else if (escolha < 1 || escolha > 3) { // Se o número for inválido
+        std::cout << "Escolha inválida! Digite 1, 2 ou 3." << std::endl;
+    }
+    else {
+        entradaValida = true; // Entrada correta
+    }
 
-    return acaoEscolhida;
+} while (!entradaValida);
+
+Acao acaoEscolhida;
+
+if (escolha == 1)
+    acaoEscolhida = ATACAR;
+else if (escolha == 2)
+    acaoEscolhida = DEFENDER;
+else
+    acaoEscolhida = FUGIR;
+
+acaoAtual = acaoEscolhida;
+return acaoEscolhida;
+
 }
 
 void Personagem::receberDano(int dano)
@@ -80,15 +106,8 @@ void Personagem::mostrarStatus()
               << " | Ataque: " << ataque
               << " | Defesa: " << defesa << std::endl;
 }
-void Personagem::setDefesa(int newDefesa)
-{
-    if (newDefesa <= 0)
-    {
-        this->defesa = 0;
-        return;
-    }
-    this->defesa = newDefesa;
-}
+
+
 std::string Personagem::getFraseAleatoria()
 {
     int index = distrib(gen);
